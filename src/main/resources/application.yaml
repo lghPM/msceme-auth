@@ -1,0 +1,91 @@
+spring:
+  config:
+    activate:
+      on-profile:
+       default
+  application:
+    name: mscemeauth
+  jpa:
+    database-platform:  org.hibernate.dialect.MariaDBDialect
+    hibernate:
+      # New database is created when application starts and destroyed when application is stopped
+      ddl-auto: none
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+  datasource:
+    url: ${CADENA_CONEXION_DB}
+    username: ${USER_DB}
+    password: ${PASSWORD_DB}
+    driver-class-name: org.mariadb.jdbc.Driver
+  h2:
+    console:
+      enabled: true
+server:
+  port: 8080
+  servlet:
+    contextPath: /msceme-auth/v1/
+token:
+  signing:
+    key: ${SIGNING_KEY_OAUTH}
+    
+logging:
+  file:
+    name: msceme-auth.log
+  pattern:
+    console: "%d %-5level %logger : %msg%n"
+    file: "%d %-5level [%thread] %logger : %msg%n"
+  level:
+    org.hibernate.SQL: INFO
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+    org.springframework: INFO
+    mx.gob.imss.cit.ceme: ${MS_LOG_LEVEL}
+---
+spring:
+  config:
+    activate:
+      on-profile:
+       h2
+  application:
+    name: mscemeauth
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      # New database is created when application starts and destroyed when application is stopped
+      ddl-auto: create-drop
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+  datasource:
+    url: jdbc:h2:mem:spring-security
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: 
+  h2:
+    console:
+      enabled: true
+server:
+  port: 9090
+  servlet:
+    contextPath: /msceme-auth/v1/
+token:
+  signing:
+    key: 556f8b25b1f524cd7cc044c58beb3cfa7358092afbe33ddba9f668f4e86b04bf
+    
+logging:
+  file:
+    name: msceme-auth.log
+  pattern:
+    console: "%d %-5level %logger : %msg%n"
+    file: "%d %-5level [%thread] %logger : %msg%n"
+  level:
+    org.hibernate.SQL: INFO
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+    org.springframework: INFO
+    mx.gob.imss.cit.ceme: INFO
